@@ -1,10 +1,16 @@
 #include <iostream>
 #include <string>
+#include <memory>
+
 #include "Menu.h"
 #include "Layout.h"
+#include "Lifecycle.h"
 
-int main(int, char**){
-  Menu menu;
-  Layout layout("hi mom", "I like dogs", 'y', 1, 2, 3, 4, 5);
+using std::cout;
+using std::endl;
+using std::shared_ptr;
 
+int main(int, char**) {
+  Menu* menu = new Menu();
+  Lifecycle lifecycle = { menu };
 }

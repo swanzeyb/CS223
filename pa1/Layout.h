@@ -1,8 +1,10 @@
+#pragma once
+
 #include <iostream>
 #include <initializer_list>
 
 class Layout {
-public:
+  public:
     // Constructor with a variable number of arguments
     template<typename... Args>
     Layout(Args... args) {

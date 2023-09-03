@@ -3,7 +3,9 @@
 #include <iostream>
 #include "Component.h"
 
-class Menu : Component {
+class Menu : public Component {
   public:
-    void render();
+    Menu();
+    ~Menu();
+    Layout* render();
 };
