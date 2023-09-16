@@ -46,7 +46,17 @@ class List {
       return size;
     }
 
-    // void splice();
+    template <typename Result>
+    List map(Result (*func)(Type)) {
+      List<Result> results;
+      auto current = head;
+      while (current != nullptr) {
+        results.push(func(current->data));
+        current = current->next;
+      }
+      return results;
+    }
+
     Type* operator[](int index) {
       auto current = head;
       for (int i = 0; i < index; i++) {

@@ -15,13 +15,11 @@ int main(int, char**) {
   // Menu* menu = new Menu();
   // Lifecycle lifecycle = { menu };
 
-  List<int> list;
-  list.push(1);
-  list.push(2);
-  list.push(3);
+  List<int> list1;
+  list1.push(1);
+  list1.push(2);
+  list1.push(3);
 
-  auto res1 = list[0];
-  auto res2 = list[1];
-  auto res3 = list[2];
-  auto res4 = list[3];
+  List<int> list2 = list1.map<int>([](int x) { return x * 2; });
+  auto list3 = list1.map<int>([](int x) { return x * 2; });
 }
