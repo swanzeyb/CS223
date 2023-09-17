@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "ncurses/ncurses.h"
 #include "Layout.h"
 
 using std::cout;

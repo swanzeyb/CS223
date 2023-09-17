@@ -1,17 +1,19 @@
 #include "Lifecycle.h"
 
-void Lifecycle::clearScreen() {
-  std::cout << "test" << std::endl;
-  std::cout << "\033[2J\033[1;1H";
-}
-
 Lifecycle::Lifecycle() {}
 
 Lifecycle::Lifecycle(initializer_list<Component*> components) {
-  clearScreen();
-  for (Component* comp : components) {
-    comp->render();
-  }
+    initscr(); // Initialize ncurses
+    printw("Hello, ncurses!"); // Print a message
+    refresh(); // Refresh the screen
+    getch(); // Wait for user input
+    endwin(); // Clean up and close ncurses
+  // for (Component* comp : components) {
+  //   comp->render();
+  // }
+
+  initscr();
+  // while ()
 }
 
 Lifecycle::~Lifecycle() {

@@ -42,16 +42,48 @@ class CSV {
         return "";
       }
 
-      string line;
-      getline(_file, line, _delimeter);
+      _data = "";
+      char c = '\0';
+      while (_file.get(c)) {
+        // We don't care about new lines, space, or carraige returns
+        if (c == '\n' || c == '\r' || c == ' ') {
+          continue;
+        }
 
-      // Check for many words in one cell
-      size_t start = line.find_first_of(_word) + 1; // Skip the first quote
-      size_t end = line.find_first_of(_word, start);
-      if (start != end) {
-        line = line.substr(start, end - start);
+        // If we find a word, we need to read until the next word
+        if (c == _word) {
+          // Read until the next word
+          while (_file.get(c)) {
+            if (c == _word) {
+              // We found a word, so we can return the data
+
+              // Skip the delimeter
+              if (_file.peek() == _delimeter) {
+                _file.get();
+              }
+
+              return _data;
+            }
+
+            _data += c;
+          }
+        }
+
+        // Otherwise, we need to read until the next delimeter
+        if (c == _delimeter) {
+          // We found a delimeter, so we can return the data
+          return _data;
+        } else {
+          _data += c;
+        }
       }
 
-      return line;
+      return "";
+    }
+
+    void skip(int num) {
+      for (int i = 0; i < num; i++) {
+        read();
+      }
     }
 };

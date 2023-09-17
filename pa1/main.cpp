@@ -6,7 +6,6 @@
 #include "Layout.h"
 #include "Lifecycle.h"
 #include "List.h"
-// #include "Store.h"
 #include "CSV.h"
 
 using std::string;
@@ -15,25 +14,41 @@ using std::endl;
 using std::shared_ptr;
 
 int main(int, char**) {
-  // Menu* menu = new Menu();
-  // Lifecycle lifecycle = { menu };
-
-  // Store<int, int> store;
-
+  // Load the available commands
   CSV csv("../../pa1/commands.csv");
   bool result = csv.load();
 
-  string line = csv.read();
-  while (line != "") {
-    cout << line << endl;
-    line = csv.read();
+  if (!result) {
+    cout << "Failed to load commands CSV" << endl;
+    return 1;
   }
 
-  List<int> list1;
-  list1.push(1);
-  list1.push(2);
-  list1.push(3);
+  // Store our commands and descriptions
+  List<string> commands;
+  List<string> descriptions;
 
-  List<int> list2 = list1.map<int>([](int x) { return x * 2; });
+  // Skip the header
+  csv.skip(2);
+
+  // Read the commands and descriptions
+  string line = csv.read();
+  int index = 1;
+  while (line != "") {
+    // Place the command and description into the appropriate list
+    if (index % 2 == 0) {
+      descriptions.push(line);
+    } else {
+      commands.push(line);
+    }
+
+    line = csv.read();
+    index += 1;
+  }
+
+  // Create the main menu
+  Menu* menu = new Menu();
+
+  // Start our scene manager
+  Lifecycle lifecycle = { menu };
 }
  
