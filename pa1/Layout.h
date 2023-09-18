@@ -2,26 +2,25 @@
 
 #include <iostream>
 #include <initializer_list>
-#include <vector>
+#include "Component.h"
+#include "List.h"
+
+using std::initializer_list;
+
+class Component;
 
 class Layout {
   private:
-    // vector<
+    List<Component*> _components;
 
   public:
     // Constructor with a variable number of arguments
-    template<typename... Args>
-    Layout(Args... args) {
-      processArguments(args...);
+    Layout(initializer_list<Component*> components) {
+      for (Component* comp : components) {
+        this->_components.push(comp);
+      }
+      std::cout << "Length of list: " << this->_components.length << std::endl;
     }
 
-    void processArguments() {
-      // Base case for recursion
-    }
-
-    template<typename T, typename... Args>
-    void processArguments(T arg, Args... args) {
-      std::cout << "Argument: " << arg << std::endl;
-      processArguments(args...);  // Recurse with remaining arguments
-    }
+    Layout() {}
 };

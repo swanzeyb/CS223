@@ -19,11 +19,40 @@ template <typename Type>
 class List {
   private:
     shared_ptr<Node<Type>> head;
-    int size;
   
   public:
-    List(): head(nullptr), size(0) {};
+    int length;
+
+    List(): head(nullptr), length(0) {};
     ~List() {};
+
+    class Iterator {
+    private:
+      shared_ptr<Node<Type>> _current;
+    public:
+      Iterator(shared_ptr<Node<Type>> node) : _current(node) {}
+
+      Type operator*() {
+        return current->data;
+      }
+
+      Iterator& operator++() {
+        current = current->next;
+        return *this;
+      }
+
+      bool operator!=(const Iterator& other) const {
+        return current != other.current;
+      }
+    };
+
+    Iterator begin() {
+      return Iterator(head);
+    }
+
+    Iterator end() {
+      return Iterator(nullptr);
+    }
 
     int push(Type data) {
       // Make new node and initialize it
@@ -42,8 +71,8 @@ class List {
         current->next = node;
       }
 
-      size++;
-      return size;
+      length++;
+      return length;
     }
 
     template <typename Result>

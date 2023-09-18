@@ -8,14 +8,14 @@ Menu::~Menu() {
   cout << "Menu destructor" << endl;
 }
 
-Layout* Menu::render() {
-  cout << "Please select an option:" << endl;
-  cout << "1. Game Rules" << endl;
-  cout << "2. Play Game" << endl;
-  cout << "3. Load Previous Game" << endl;
-  cout << "4. Add Command" << endl;
-  cout << "5. Remove Command" << endl;
-  cout << "6. Exit" << endl;
+Layout Menu::render() {
+  printw("Please select an option:\n");
+  printw("1. Game Rules\n");
+  printw("2. Play Game\n");
+  printw("3. Load Previous Game\n");
+  printw("4. Add Command\n");
+  printw("5. Remove Command\n");
+  printw("6. Exit\n");
 
-  return nullptr;
+  return Layout();
 }

@@ -7,5 +7,5 @@ class Menu : public Component {
   public:
     Menu();
     ~Menu();
-    Layout* render();
+    Layout render();
 };

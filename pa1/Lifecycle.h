@@ -10,10 +10,13 @@ using std::initializer_list;
 class Component;
 
 class Lifecycle {
+  private:
+    bool _running = true;
+
   public:
     Lifecycle();
     Lifecycle(initializer_list<Component*> components);
     ~Lifecycle();
-  private:
-    static void clearScreen();
+
+    void stop();
 };
