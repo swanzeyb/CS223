@@ -19,8 +19,10 @@ class Layout {
       for (Component* comp : components) {
         this->_components.push(comp);
       }
-      std::cout << "Length of list: " << this->_components.length << std::endl;
     }
-
     Layout() {}
+
+    List<Component*>& components() {
+      return this->_components;
+    }
 };

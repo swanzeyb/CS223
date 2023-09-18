@@ -33,16 +33,16 @@ class List {
       Iterator(shared_ptr<Node<Type>> node) : _current(node) {}
 
       Type operator*() {
-        return current->data;
+        return _current->data;
       }
 
       Iterator& operator++() {
-        current = current->next;
+        _current = _current->next;
         return *this;
       }
 
       bool operator!=(const Iterator& other) const {
-        return current != other.current;
+        return _current != other._current;
       }
     };
 

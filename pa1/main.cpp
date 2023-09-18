@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 
+#include "Scene.h"
 #include "Menu.h"
 #include "Layout.h"
 #include "Lifecycle.h"
@@ -45,10 +46,10 @@ int main(int, char**) {
     index += 1;
   }
 
-  // Create the main menu
-  Menu* menu = new Menu();
+  // Main scene
+  Scene* scene = new Scene();
 
   // Start our scene manager
-  Lifecycle lifecycle = { menu };
+  Lifecycle lifecycle = { scene };
 }
  

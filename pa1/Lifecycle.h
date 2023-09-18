@@ -12,6 +12,7 @@ class Component;
 class Lifecycle {
   private:
     bool _running = true;
+    void _render(Layout layout);
 
   public:
     Lifecycle();

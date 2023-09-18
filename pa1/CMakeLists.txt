@@ -15,7 +15,7 @@ ExternalProject_Add(ncurses
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 find_library(NCURSES names ncurses PATHS ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
-add_executable(pa1 main.cpp Component.cpp Menu.cpp Lifecycle.cpp Layout.cpp)
+add_executable(pa1 main.cpp Component.cpp Lifecycle.cpp Layout.cpp)
 target_link_libraries(pa1 ${NCURSES})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
