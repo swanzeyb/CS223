@@ -9,17 +9,19 @@
 #include "List.h"
 #include "CSV.h"
 
-using std::string;
 using std::cout;
 using std::endl;
 using std::shared_ptr;
+using std::string;
 
-int main(int, char**) {
+int main(int, char **)
+{
   // Load the available commands
   CSV csv("../../pa1/commands.csv");
   bool result = csv.load();
 
-  if (!result) {
+  if (!result)
+  {
     cout << "Failed to load commands CSV" << endl;
     return 1;
   }
@@ -34,11 +36,15 @@ int main(int, char**) {
   // Read the commands and descriptions
   string line = csv.read();
   int index = 1;
-  while (line != "") {
+  while (line != "")
+  {
     // Place the command and description into the appropriate list
-    if (index % 2 == 0) {
+    if (index % 2 == 0)
+    {
       descriptions.push(line);
-    } else {
+    }
+    else
+    {
       commands.push(line);
     }
 
@@ -47,9 +53,8 @@ int main(int, char**) {
   }
 
   // Main scene
-  Scene* scene = new Scene();
+  Scene *scene = new Scene();
 
   // Start our scene manager
-  Lifecycle lifecycle = { scene };
+  Lifecycle lifecycle = {scene};
 }
- 
