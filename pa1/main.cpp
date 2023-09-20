@@ -26,10 +26,10 @@ int main(int, char **)
     return 1;
   }
 
-  // Store our commands and descriptions
-  List<string> commands;
-  List<string> descriptions;
+  // Grab the global state
+  State *state = State::getInstance();
 
+  // Store our commands and descriptions
   // Skip the header
   csv.skip(2);
 
@@ -41,11 +41,11 @@ int main(int, char **)
     // Place the command and description into the appropriate list
     if (index % 2 == 0)
     {
-      descriptions.push(line);
+      state->descriptions.push(line);
     }
     else
     {
-      commands.push(line);
+      state->commands.push(line);
     }
 
     line = csv.read();

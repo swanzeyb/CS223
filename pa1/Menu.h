@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Rules.h"
+#include "Game.h"
 
 class Menu : public Component
 {
@@ -24,7 +25,7 @@ public:
     case '1':
       return Layout({new Rules()});
     case '2':
-      printw("Play Game\n");
+      return Layout({new Game()});
       break;
     case '3':
       printw("Load Previous Game\n");
