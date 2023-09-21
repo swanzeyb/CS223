@@ -4,12 +4,11 @@
 #include "Rules.h"
 #include "Game.h"
 #include "Add.h"
+#include "Remove.h"
 
 class Menu : public Component
 {
 public:
-  Menu(){};
-  ~Menu(){};
   Layout render()
   {
     printw("Please select an option:\n");
@@ -35,7 +34,7 @@ public:
       return Layout({new Add()});
       break;
     case '5':
-      printw("Remove Command\n");
+      return Layout({new Remove()});
       break;
     case '6':
       printw("Exit\n");

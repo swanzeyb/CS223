@@ -22,8 +22,6 @@ private:
   }
 
 public:
-  Game(){};
-  ~Game(){};
   Layout render()
   {
     State *state = State::getInstance();

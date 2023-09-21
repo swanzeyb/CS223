@@ -2,8 +2,10 @@
 
 #include <memory>
 #include <functional>
+#include <initializer_list>
 
 using std::function;
+using std::initializer_list;
 using std::make_shared;
 using std::shared_ptr;
 
@@ -23,6 +25,20 @@ class List
 {
 private:
   shared_ptr<Node<Type>> head;
+
+  shared_ptr<Node<Type>> _get(int index)
+  {
+    auto current = head;
+    for (int i = 0; i < index; i++)
+    {
+      if (current == nullptr)
+      {
+        return nullptr;
+      }
+      current = current->next;
+    }
+    return current;
+  }
 
 public:
   int length;
@@ -173,5 +189,29 @@ public:
       current = current->next;
     }
     return false;
+  }
+
+  List &splice(int start, int deleteCount = 0, initializer_list<Type> newItems = {})
+  {
+    // Find the start node
+    auto pStart = _get(start);
+    if (pStart == nullptr)
+    {
+      return *this;
+    }
+
+    // Find the end node
+    auto pEnd = _get(start + deleteCount);
+
+    // Remove the nodes
+    pStart->next = pEnd->next; // This works because shared_ptr will deleted unused nodes
+
+    // Insert the new nodes
+    for (auto item : newItems)
+    {
+      push(item);
+    }
+
+    return *this;
   }
 };
