@@ -1,3 +1,12 @@
+/*
+  ADVANTAGES/DISADVANTAGES LINKED LIST:
+  Advantage: Easy to add new commands to the front of the list.
+  Disadvantage: Indexing certain positions takes forever because it has to iterate the entire list.
+  ADVANTAGES/DISADVANTAGES ARRAY:
+  Advantage: We can get info at any position quicker than linked list.
+  Disadvantage: It only supports homogenous data types.
+*/
+
 #include <iostream>
 #include <string>
 #include <memory>
