@@ -153,4 +153,9 @@ public:
     }
     return -1;
   }
+
+  bool includes(Type data)
+  {
+    return indexOf(data) != -1;
+  }
 };
