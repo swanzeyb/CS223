@@ -52,8 +52,22 @@ public:
       for (size_t i = 0; i < 3; i++)
       {
         List<string> pick;
-        pick.push(getRandomCommand());
-        pick.push(getRandomDescription());
+
+        // Get random command
+        string command = getRandomCommand();
+
+        // Dedupe
+        while (picks.some([command](List<string> other)
+                          { return other.includes(command); }))
+        {
+          command = getRandomCommand();
+        }
+
+        // Lookup the commands description
+        string description = state->descriptions[state->commands.indexOf(command)];
+
+        pick.push(command);
+        pick.push(description);
         picks.push(pick);
       }
 
@@ -67,7 +81,7 @@ public:
       // Print descriptions
       for (size_t i = 0; i < picks.length; i++)
       {
-        printw("%d. %s\n", i + 1, picks[i][1].c_str());
+        printw("%lu. %s\n", i + 1, picks[i][1].c_str());
       }
 
       // Get the user's answer
@@ -79,6 +93,10 @@ public:
         This works because the ASCII value of '0' is 48, '1' is 49, and so on.
       */
       int choice = (getch() - '0') - 1; // Minus 1 to account for 0-based index
+
+      // Blank slate
+      clear();
+      refresh();
 
       // Check if the user's answer is correct
       if (answer == choice)
