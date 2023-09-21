@@ -27,10 +27,17 @@ public:
     State *state = State::getInstance();
 
     // Get the user's name
-    printw("What is your name?\n");
-    char name[256];
-    getstr(name);
-    state->userName = string(name);
+    if (state->userName == "")
+    {
+      printw("What is your name?\n");
+      char name[256];
+      getstr(name);
+      state->userName = string(name);
+    }
+    else
+    {
+      printw("Welcome back, %s!\n", state->userName.c_str());
+    }
 
     // Get the number of rounds
     printw("How many matching rounds would you like, %s?\n", state->userName.c_str());

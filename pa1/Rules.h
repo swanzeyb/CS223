@@ -5,8 +5,6 @@
 class Rules : public Component
 {
 public:
-  Rules(){};
-  ~Rules(){};
   Layout render()
   {
     printw("Game Rules:\n");

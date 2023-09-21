@@ -104,20 +104,6 @@ public:
 
     read_profiles_csv.close();
 
-    // Store the current profile
-    // If there is a profile with the same name, overwrite it
-    if (state->userName != "")
-    {
-      for (auto profile : profiles)
-      {
-        if (profile[0] == state->userName)
-        {
-          profile[1] = std::to_string(state->userPoints);
-          break;
-        }
-      }
-    }
-
     // Store updated profiles
     for (int i = 0; i < profiles.length; i++)
     {
@@ -133,7 +119,15 @@ public:
       for (int i = 0; i < profiles.length; i++)
       {
         write_profiles_csv.write(false, profiles[i][0]);
-        write_profiles_csv.write(true, profiles[i][1]);
+        // If there is a profile with the same name, overwrite it
+        if (profiles[i][0] == state->userName)
+        {
+          write_profiles_csv.write(true, std::to_string(state->userPoints));
+        }
+        else
+        {
+          write_profiles_csv.write(true, profiles[i][1]);
+        }
       }
 
       write_profiles_csv.close();
