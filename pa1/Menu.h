@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Add.h"
 #include "Remove.h"
+#include "Exit.h"
 
 class Menu : public Component
 {
@@ -37,7 +38,7 @@ public:
       return Layout({new Remove()});
       break;
     case '6':
-      printw("Exit\n");
+      return Layout({new Exit()});
       break;
     default:
       printw("Invalid choice\n");

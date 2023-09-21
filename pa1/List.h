@@ -47,6 +47,15 @@ public:
   List() : head(nullptr), length(0){};
   ~List(){};
 
+  // Move constructor
+  List(List &&other)
+  {
+    head = other.head;
+    length = other.length;
+    other.head = nullptr;
+    other.length = 0;
+  }
+
   // Copy constructor and assignment operator
   List(const List &other)
   {
@@ -68,6 +77,29 @@ public:
     return *this;
   }
 
+  // Compare operator
+  bool operator==(const List &other)
+  {
+    if (length != other.length)
+    {
+      return false;
+    }
+
+    auto current = head;
+    auto otherCurrent = other.head;
+    while (current != nullptr)
+    {
+      if (current->data != otherCurrent->data)
+      {
+        return false;
+      }
+      current = current->next;
+      otherCurrent = otherCurrent->next;
+    }
+    return true;
+  }
+
+  // Iterator
   class Iterator
   {
   private:
@@ -214,7 +246,20 @@ public:
 
     // Update length
     length = length - deleteCount + newItems.size();
-
     return *this;
+  }
+
+  Type *find(function<bool(Type)> func)
+  {
+    auto current = head;
+    while (current != nullptr)
+    {
+      if (func(current->data))
+      {
+        return &current->data;
+      }
+      current = current->next;
+    }
+    return nullptr;
   }
 };

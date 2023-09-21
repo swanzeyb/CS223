@@ -3,19 +3,9 @@
 #include <memory>
 #include "string.h"
 #include "List.h"
+#include "CSV.h"
 
 using std::string;
-
-// enum Scenes
-// {
-//   MENU,
-//   RULES,
-//   GAME,
-//   LOAD,
-//   ADD,
-//   REMOVE,
-//   EXIT,
-// };
 
 // Singleton global game state
 class State
@@ -50,6 +40,104 @@ public:
       _instance = new State();
     }
     return _instance;
+  }
+
+  static State *reset()
+  {
+    if (_instance != nullptr)
+    {
+      delete _instance;
+    }
+    _instance = new State();
+    return _instance;
+  }
+
+  static bool save()
+  {
+    // Grab the global state
+    State *state = State::getInstance();
+
+    // Open commands CSV
+    CSV commands_csv("../../pa1/commands.csv");
+    bool result = commands_csv.load(std::ios::out);
+    if (!result)
+    {
+      return false;
+    }
+
+    // Store our commands and descriptions
+    commands_csv.write(false, "Command");
+    commands_csv.write(true, "Description");
+    for (int i = 0; i < state->commands.length; i++)
+    {
+      commands_csv.write(false, state->commands[i]);
+      commands_csv.write(true, state->descriptions[i]);
+    }
+
+    commands_csv.close();
+
+    // Open profiles CSV
+    CSV read_profiles_csv("../../pa1/profiles.csv");
+    result = read_profiles_csv.load(std::ios::in);
+    if (!result)
+    {
+      return false;
+    }
+
+    // Temp store current profiles
+    List<List<string>> profiles;
+
+    // Read the names and points
+    string line = read_profiles_csv.read();
+    for (int i = 0; line != ""; i++)
+    {
+      // Place the name and points into the appropriate list
+      List<string> profile;
+      profile.push(line);
+      line = read_profiles_csv.read();
+      profile.push(line);
+      line = read_profiles_csv.read();
+      profiles.push(profile);
+    }
+
+    read_profiles_csv.close();
+
+    // Store the current profile
+    // If there is a profile with the same name, overwrite it
+    if (state->userName != "")
+    {
+      for (auto profile : profiles)
+      {
+        if (profile[0] == state->userName)
+        {
+          profile[1] = std::to_string(state->userPoints);
+          break;
+        }
+      }
+    }
+
+    // Store updated profiles
+    for (int i = 0; i < profiles.length; i++)
+    {
+      // Open profiles CSV
+      CSV write_profiles_csv("../../pa1/profiles.csv");
+      result = write_profiles_csv.load(std::ios::app);
+      if (!result)
+      {
+        return false;
+      }
+
+      // Store our profiles
+      for (int i = 0; i < profiles.length; i++)
+      {
+        write_profiles_csv.write(false, profiles[i][0]);
+        write_profiles_csv.write(true, profiles[i][1]);
+      }
+
+      write_profiles_csv.close();
+    }
+
+    return true;
   }
 };
 
