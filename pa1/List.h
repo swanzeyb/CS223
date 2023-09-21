@@ -6,20 +6,20 @@ using std::make_shared;
 using std::shared_ptr;
 
 template <typename Type>
-class Node
-{
-public:
-  shared_ptr<Node> next;
-  Type data;
-
-  Node(){};
-  ~Node(){};
-};
-
-template <typename Type>
 class List
 {
 private:
+  template <typename Type>
+  class Node
+  {
+  public:
+    shared_ptr<Node> next;
+    Type data;
+
+    Node(){};
+    ~Node(){};
+  };
+
   shared_ptr<Node<Type>> head;
 
 public:
