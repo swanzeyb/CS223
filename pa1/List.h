@@ -114,7 +114,7 @@ public:
   }
 
   template <typename Result>
-  List map(Result (*func)(Type))
+  List map(function<Result(Type)> func)
   {
     List<Result> results;
     auto current = head;
