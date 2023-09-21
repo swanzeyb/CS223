@@ -4,7 +4,7 @@ Lifecycle::Lifecycle() {}
 
 Lifecycle::Lifecycle(initializer_list<Component *> components)
 {
-  initscr(); // Initialize ncurses
+  initscr(); // Initialize ncurses;
 
   // First paint
   while (true)
@@ -34,9 +34,4 @@ void Lifecycle::_render(Layout layout)
     }
   }
   refresh(); // Refresh the screen
-}
-
-void Lifecycle::stop()
-{
-  this->_running = false;
 }

@@ -56,5 +56,5 @@ int main(int, char **)
   Scene *scene = new Scene();
 
   // Start our scene manager
-  Lifecycle lifecycle = {scene};
+  Lifecycle lifecycle({scene});
 }

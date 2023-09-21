@@ -12,13 +12,10 @@ class Component;
 class Lifecycle
 {
 private:
-  bool _running = true;
   void _render(Layout layout);
 
 public:
   Lifecycle();
   Lifecycle(initializer_list<Component *> components);
   ~Lifecycle();
-
-  void stop();
 };

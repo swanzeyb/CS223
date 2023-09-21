@@ -128,7 +128,9 @@ public:
     {
       data += _delimeter;
     }
+
     _file << data;
+    return true;
   }
 
   void close()

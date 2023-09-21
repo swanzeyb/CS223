@@ -4,6 +4,7 @@
 #include "string.h"
 #include "List.h"
 #include "CSV.h"
+#include "Lifecycle.h"
 
 using std::string;
 
@@ -28,6 +29,8 @@ public:
   string userName = "";
   int userPoints = 0;
   size_t rounds = 0;
+
+  bool stop = false;
 
   // Destructor
   ~State() {}
@@ -89,15 +92,14 @@ public:
 
     // Read the names and points
     string line = read_profiles_csv.read();
-    for (int i = 0; line != ""; i++)
+    while (line != "")
     {
-      // Place the name and points into the appropriate list
       List<string> profile;
       profile.push(line);
       line = read_profiles_csv.read();
       profile.push(line);
-      line = read_profiles_csv.read();
       profiles.push(profile);
+      line = read_profiles_csv.read();
     }
 
     read_profiles_csv.close();
@@ -121,7 +123,7 @@ public:
     {
       // Open profiles CSV
       CSV write_profiles_csv("../../pa1/profiles.csv");
-      result = write_profiles_csv.load(std::ios::app);
+      result = write_profiles_csv.load(std::ios::out);
       if (!result)
       {
         return false;
