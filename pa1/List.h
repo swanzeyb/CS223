@@ -137,4 +137,20 @@ public:
     }
     return current->data;
   }
+
+  int indexOf(Type data)
+  {
+    int index = 0;
+    auto current = head;
+    while (current != nullptr)
+    {
+      if (current->data == data)
+      {
+        return index;
+      }
+      current = current->next;
+      index++;
+    }
+    return -1;
+  }
 };
