@@ -131,7 +131,7 @@ public:
     {
       if (current == nullptr)
       {
-        return nullptr; // Return null if index is out of bounds
+        return Type(); // Return default instance of Type
       }
       current = current->next;
     }

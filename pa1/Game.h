@@ -83,13 +83,16 @@ public:
       // Check if the user's answer is correct
       if (answer == choice)
       {
-        printw("Correct! You now have %d points.\n");
         state->userPoints += 1;
+        printw("Correct! You now have %d points.\n", state->userPoints);
       }
       else
       {
-        printw("Incorrect!\n");
+        state->userPoints -= 1;
+        printw("Incorrect! You now have %d points.\n", state->userPoints);
       }
+      printw("\nPress any key to continue... ");
+      getch();
     }
 
     // printw("Matching command %d of %d\n");
