@@ -108,6 +108,7 @@ public:
       {
         state->userPoints -= 1;
         printw("Incorrect! You now have %d points.\n", state->userPoints);
+        printw("\n%s: %s\n", picks[answer][0].c_str(), picks[answer][1].c_str());
       }
       printw("\nPress any key to continue... ");
       getch();
