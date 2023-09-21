@@ -212,6 +212,9 @@ public:
       push(item);
     }
 
+    // Update length
+    length = length - deleteCount + newItems.size();
+
     return *this;
   }
 };
