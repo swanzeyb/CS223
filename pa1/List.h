@@ -20,7 +20,8 @@ public:
   ~Node(){};
 };
 
-template <typename Type>
+// Requiring two templates paramters here doesn't make sense... It's a homogenous list.
+template <typename Type, typename RResult = Type>
 class List
 {
 private:
@@ -108,7 +109,7 @@ public:
   public:
     Iterator(shared_ptr<Node<Type>> node) : _current(node) {}
 
-    Type operator*()
+    RResult operator*()
     {
       return _current->data;
     }
@@ -174,7 +175,7 @@ public:
     return results;
   }
 
-  Type operator[](int index)
+  RResult operator[](int index)
   {
     auto current = head;
     for (int i = 0; i < index; i++)
@@ -249,7 +250,7 @@ public:
     return *this;
   }
 
-  Type *find(function<bool(Type)> func)
+  RResult *find(function<bool(Type)> func)
   {
     auto current = head;
     while (current != nullptr)
