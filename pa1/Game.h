@@ -114,10 +114,6 @@ public:
       getch();
     }
 
-    // printw("Matching command %d of %d\n");
-    // printw("Score: %d\n", state->getScore());
-    // printw("Commands: %d\n", state->getCommands());
-
     return Layout();
   }
 };

@@ -7,11 +7,13 @@
 
 using std::cout;
 using std::endl;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
 
-class Component {
-  public:
-    virtual Layout render() = 0;
-    virtual ~Component() {};
+class Component
+{
+public:
+  Component(){};
+  virtual ~Component(){};
+  virtual Layout render() = 0;
 };

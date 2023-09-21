@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Rules.h"
 #include "Game.h"
+#include "Add.h"
 
 class Menu : public Component
 {
@@ -31,7 +32,7 @@ public:
       printw("Load Previous Game\n");
       break;
     case '4':
-      printw("Add Command\n");
+      return Layout({new Add()});
       break;
     case '5':
       printw("Remove Command\n");
