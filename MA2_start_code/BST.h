@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <limits>
+#include <queue>
 using namespace std;
 
 /*
@@ -226,7 +227,25 @@ public:
 	 */
 	void printLevelOrder()
 	{
-		cout << "TODO: Implement printLevelOrder" << endl;
+		if (!this->_root)
+			return; // Nothing to print
+
+		// Initialize queue with root
+		queue<Node<T> *> q;
+		q.push(this->_root);
+
+		while (!q.empty())
+		{
+			Node<T> *current = q.front();
+			q.pop();
+			cout << current->value << ' '; // Print current level
+
+			// Add our next node to print
+			if (current->left)
+				q.push(current->left);
+			if (current->right)
+				q.push(current->right);
+		}
 	}
 
 	int nodesCount()
