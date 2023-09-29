@@ -160,6 +160,26 @@ protected:
 		delete root; // Delete the root after deleting all other trees
 	}
 
+	bool containsHelper(Node<T> *root, T value)
+	{
+		if (root == nullptr)
+		{
+			return false;
+		}
+		if (root->value == value)
+		{
+			return true;
+		}
+		if (root->value > value) // Value is less than root value, so go left
+		{
+			return containsHelper(root->left, value);
+		}
+		else
+		{
+			return containsHelper(root->right, value);
+		}
+	}
+
 	/********************************* PUBLIC API *****************************/
 public:
 	BST() : _root(nullptr) {} // Basic initialization constructor
@@ -174,6 +194,15 @@ public:
 	}
 
 	/* Public API */
+
+	/**
+	 * Find if the BST contains the value
+	 */
+	bool contains(T value)
+	{
+		return containsHelper(this->_root, value);
+	}
+
 	void add(T val)
 	{
 		if (this->_root)
@@ -222,16 +251,6 @@ public:
 	bool deleteValue(T value)
 	{
 		return this->deleteValueHelper(nullptr, this->_root, value);
-	}
-
-	/**
-	 * Find if the BST contains the value
-	 * TODO: Implement contains
-	 */
-	bool contains(T value)
-	{
-		cout << "TODO: Implement contains" << endl;
-		return numeric_limits<T>::min();
 	}
 };
 
