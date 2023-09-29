@@ -181,6 +181,32 @@ protected:
 		}
 	}
 
+	int maxPathHelper(Node<T> *node, vector<T> &path)
+	{
+		if (!node)
+			return 0;
+
+		vector<T> leftPath, rightPath;
+
+		// Find the max path for the left and right subtrees
+		int leftDepth = maxPathHelper(node->left, leftPath);
+		int rightDepth = maxPathHelper(node->right, rightPath);
+
+		// Return the max path and update the path vector
+		if (leftDepth > rightDepth)
+		{
+			path = leftPath;
+			path.insert(path.begin(), node->value);
+			return leftDepth + 1;
+		}
+		else
+		{
+			path = rightPath;
+			path.insert(path.begin(), node->value);
+			return rightDepth + 1;
+		}
+	}
+
 	/********************************* PUBLIC API *****************************/
 public:
 	BST() : _root(nullptr) {} // Basic initialization constructor
@@ -264,7 +290,16 @@ public:
 	 */
 	void printMaxPath()
 	{
-		cout << "TODO: Implement printMaxPath" << endl;
+		vector<T> path;
+
+		// Find the path
+		maxPathHelper(this->_root, path);
+
+		// Print the path
+		for (T val : path)
+		{
+			cout << val << ' ';
+		}
 	}
 
 	bool deleteValue(T value)
