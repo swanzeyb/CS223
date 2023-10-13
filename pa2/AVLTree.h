@@ -13,8 +13,19 @@ public:
   bool validate();
 
 private:
-  int getHeight(AVLNode<T> *node);
-  int getBalance(AVLNode<T> *node);
+  int getHeight(AVLNode<T> *node)
+  {
+    if (node == nullptr)
+      return 0;
+    return node->height;
+  }
+
+  int getBalance(AVLNode<T> *node)
+  {
+    if (node == nullptr)
+      return 0;
+    return getHeight(node->left) - getHeight(node->right);
+  }
 
   int max(int a, int b)
   {
