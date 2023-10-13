@@ -7,12 +7,90 @@ class AVLTree
 public:
   AVLNode<T> *root;
 
-  int height();
-  void insert(T data);
+  AVLTree() : root(nullptr){};
+
+  int height()
+  {
+    return getHeight(root);
+  }
+
+  AVLNode<T> *insert(T data)
+  {
+    AVLNode<T> *node = insertHelper(root, data);
+    if (root == nullptr)
+    {
+      root = node;
+    }
+    return node;
+  }
+
   bool contains(T data);
   bool validate();
 
 private:
+  int max(int a, int b)
+  {
+    return (a > b) ? a : b;
+  }
+
+  AVLNode<T> *insertHelper(AVLNode<T> *node, T data)
+  {
+    // Base case
+    if (node == nullptr)
+    {
+      return new AVLNode<T>(data);
+    }
+
+    // Insert data
+    if (data < node->data)
+    {
+      node->left = insertHelper(node->left, data);
+    }
+    else if (data > node->data)
+    {
+      node->right = insertHelper(node->right, data);
+    }
+    else
+    {
+      // No duplicates
+      return node;
+    }
+
+    // Update height
+    node->height = max(getHeight(node->left), getHeight(node->right)) + 1;
+
+    // Check unbalance
+    int balance = getBalance(node);
+
+    // Left Case
+    if (balance > 1)
+    {
+      if (data < node->left->data)
+      {
+        return singleRightRotate(node);
+      }
+      else if (data > node->left->data)
+      {
+        return leftRightRotate(node);
+      }
+    }
+
+    // Right case
+    if (balance < -1)
+    {
+      if (data > node->right->data)
+      {
+        return singleLeftRotate(node);
+      }
+      else if (data < node->right->data)
+      {
+        return rightLeftRotate(node);
+      }
+    }
+
+    return node;
+  }
+
   int getHeight(AVLNode<T> *node)
   {
     if (node == nullptr)
@@ -25,11 +103,6 @@ private:
     if (node == nullptr)
       return 0;
     return getHeight(node->left) - getHeight(node->right);
-  }
-
-  int max(int a, int b)
-  {
-    return (a > b) ? a : b;
   }
 
   AVLNode<T> *singleRightRotate(AVLNode<T> *node)
