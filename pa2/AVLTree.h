@@ -55,11 +55,15 @@ private:
     return right;
   }
 
-  AVLNode<T> *doubleRightRotate(AVLNode<T> *node)
+  AVLNode<T> *leftRightRotate(AVLNode<T> *node)
   {
+    node->left = singleLeftRotate(node->left);
+    return singleRightRotate(node);
   }
 
-  AVLNode<T> *doubleLeftRotate(AVLNode<T> *node)
+  AVLNode<T> *rightLeftRotate(AVLNode<T> *node)
   {
+    node->right = singleRightRotate(node->right);
+    return singleLeftRotate(node);
   }
 };
