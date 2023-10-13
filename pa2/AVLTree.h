@@ -38,7 +38,28 @@ private:
     return left;
   }
 
-  AVLNode<T> *singleLeftRotate(AVLNode<T> *node);
-  AVLNode<T> *doubleRightRotate(AVLNode<T> *node);
-  AVLNode<T> *doubleLeftRotate(AVLNode<T> *node);
+  AVLNode<T> *singleLeftRotate(AVLNode<T> *node)
+  {
+    AVLNode<T> *right = node->right;
+    AVLNode<T> *left = right->left;
+
+    // Perform rotation
+    right->left = node;
+    node->right = left;
+
+    // Update heights
+    node->height = max(getHeight(node->left), getHeight(node->right)) + 1;
+    right->height = max(getHeight(right->left), getHeight(right->right)) + 1;
+
+    // Return new root
+    return right;
+  }
+
+  AVLNode<T> *doubleRightRotate(AVLNode<T> *node)
+  {
+  }
+
+  AVLNode<T> *doubleLeftRotate(AVLNode<T> *node)
+  {
+  }
 };
