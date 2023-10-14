@@ -17,20 +17,42 @@ public:
   AVLNode<T> *insert(T data)
   {
     AVLNode<T> *node = insertHelper(root, data);
-    if (root == nullptr)
-    {
-      root = node;
-    }
+    root = node;
     return node;
   }
 
-  bool contains(T data);
+  bool contains(T data)
+  {
+    return containsHelper(root, data);
+  }
+
   bool validate();
 
 private:
   int max(int a, int b)
   {
     return (a > b) ? a : b;
+  }
+
+  bool containsHelper(AVLNode<T> *node, T data)
+  {
+    if (node == nullptr)
+      return false; // Not found
+
+    if (data < node->data)
+    {
+      // Search left tree
+      return containsHelper(node->left, data);
+    }
+    else if (data > node->data)
+    {
+      // Search right tree
+      return containsHelper(node->right, data);
+    }
+    else
+    {
+      return true; // Found
+    }
   }
 
   AVLNode<T> *insertHelper(AVLNode<T> *node, T data)
