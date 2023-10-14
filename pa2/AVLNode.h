@@ -16,5 +16,5 @@ public:
     this->right = nullptr;
     this->height = 1;
   };
-  ~AVLNode();
+  ~AVLNode(){};
 };

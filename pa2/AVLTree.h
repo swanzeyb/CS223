@@ -8,6 +8,7 @@ public:
   AVLNode<T> *root;
 
   AVLTree() : root(nullptr){};
+  ~AVLTree(){};
 
   int height()
   {
@@ -26,7 +27,11 @@ public:
     return containsHelper(root, data);
   }
 
-  bool validate();
+  bool validate()
+  {
+    int balance = getBalance(root);
+    return (balance > 1 || balance < -1) ? false : true;
+  }
 
 private:
   int max(int a, int b)
