@@ -43,6 +43,26 @@ int main(int argc, char *argv[])
     scene_1.erase("savage1");
 
     // Scenario 2: Search based on Email
+    // Create a new map
+    map<string, TwitterData> scene_2;
+
+    // Insert all data from twitter_data into the map
+    for (int i = 0; i < 5; ++i)
+    {
+        scene_2[twitter_data[i].getEmail()] = twitter_data[i];
+    }
+
+    // Print out the map
+    for (auto it = scene_2.begin(); it != scene_2.end(); ++it)
+    {
+        cout << it->first << ": " << it->second.print() << endl;
+    }
+
+    // Find the person with Email "kat@gmail.com"
+    cout << scene_2["kat@gmail.com"].print() << endl;
+
+    // Remove the person with Email "kat@gmail.com"
+    scene_2.erase("kat@gmail.com");
 
     return 0;
 }
