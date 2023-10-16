@@ -20,11 +20,29 @@ int main(int argc, char *argv[])
         twitter_data[i].setCategory(raw_data[i][5]);
     }
 
+    // Scenario 1: Search based on UserName
+    // Create a new map
+    map<string, TwitterData> scene_1;
 
-    //
-    // Your code goes here
-    //
+    // Insert all data from twitter_data into the map
+    for (int i = 0; i < 5; ++i)
+    {
+        scene_1[twitter_data[i].getUserName()] = twitter_data[i];
+    }
 
+    // Print out the map
+    for (auto it = scene_1.begin(); it != scene_1.end(); ++it)
+    {
+        cout << it->first << ": " << it->second.print() << endl;
+    }
+
+    // Find the person with UserName "savage1"
+    cout << scene_1["savage1"].print() << endl;
+
+    // Remove the person with UserName "savage1"
+    scene_1.erase("savage1");
+
+    // Scenario 2: Search based on Email
 
     return 0;
 }
