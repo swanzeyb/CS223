@@ -6,7 +6,7 @@ SET(CMAKE_CXX_FLAGS "-std=c++0x")
 include(CTest)
 enable_testing()
 
-add_subdirectory(ma3)
+add_subdirectory(pa3)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
