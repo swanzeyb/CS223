@@ -1,40 +1,37 @@
 .text
 # Calculate Fibonacci number
 fibonacci:
-    # Prepare the stack and save necessary registers
-    addiu $sp, $sp, -32 # Allocate stack space for this frame
-    sw $ra, 28($sp) # Save return address
-    sw $fp, 24($sp) # Save previous frame pointer
-    sw $s0, 20($sp) # Save $s0 (used for n value)
-    sw $s1, 16($sp) # Save $s1 (used for intermediate calculations)
-    move $fp, $sp # Update frame pointer
-    move $s0, $a0 # Move argument (n) to $s0 for convenience
+    addiu $sp, $sp, -12 # Allocate stack space for this frame
+    sw $ra, 0($sp) # Push return address
+    sw $a0, 4($sp) # Push n
 
     # If n <= 1, return n
-    blez $s0, return_n # If n <= 0, return n
+    blez $a0, return_n # If n <= 0, return n
     li $t0, 1 # Load 1 into $t0
-    ble $s0, $t0, return_n # If n == 1, return n
+    ble $a0, $t0, return_n # If n == 1, return n
 
     # Return fibonacci(n-1) + fibonacci(n-2)
-    addi $a0, $s0, -1 # Calculate fibonacci(n-1)
+    addi $a0, $a0, -1 # Calculate fibonacci(n-1)
     jal fibonacci
-    move $s1, $v0 # Store the result in $s1
-    addi $a0, $s0, -2 # Calculate fibonacci(n-2)
+    sw $v0, 8($sp) # Push n-1 result
+
+    lw $a0, 4($sp) # Load n
+
+    addi $a0, $a0, -2 # Calculate fibonacci(n-2)
     jal fibonacci
-    add $v0, $v0, $s1 # Add fibonacci(n-1) and fibonacci(n-2)
+
+    lw $t0, 8($sp) # Load n-1 result
+    add $v0, $v0, $t0 # Add fibonacci(n-1) and fibonacci(n-2)
 
     # Restore registers and return
     end_function:
-      lw $s0, 20($sp) # Restore $s0
-      lw $s1, 16($sp) # Restore $s1
-      lw $fp, 24($sp) # Restore previous frame pointer
-      lw $ra, 28($sp) # Restore return address
-      addiu $sp, $sp, 32 # Deallocate stack space
+      lw $ra, 0($sp) # Restore return address
+      addiu $sp, $sp, 12 # Deallocate stack space
       jr $ra # Return to caller
 
     # For base case, return n
     return_n:
-      move $v0, $s0
+      move $v0, $a0
       j end_function
 
 # Ask the user for an int
@@ -70,9 +67,12 @@ main:
   move $a0, $v0 # Load input into $a0
 
   jal fibonacci # Call fibonacci with n
+  move $s0, $v0 # Store result
+
   la $a0, r_fibonacci # Load the address of r_fibonacci into $a0
   jal print_str # Print r_fibonacci
-  move $a0, $v0 # Move result into $a0
+  
+  move $a0, $s0 # Move result into $a0
   jal print_int # Print fibonacci result
 
   jr $ra # Main finished
