@@ -68,6 +68,12 @@ public:
 
         _store[index].push_front(pair); // Newly inserted items are more likely to be queried
         _currentSize += 1;
+
+        if (load_factor() >= 0.75)
+        {
+            rehash();
+        }
+
         return true;
     }
 
@@ -99,7 +105,7 @@ public:
 
     float load_factor()
     {
-        return -1;
+        return (float)(_currentSize) / (float)_store.size();
     }
 
 private:
@@ -144,6 +150,22 @@ private:
     int hash(const K &key)
     {
         return key % _bucketCount;
+    }
+
+    void rehash()
+    {
+        int bucketCount = findNextPrime(_bucketCount * 2); // Standard to make a double sized table
+        vector<list<pair<K, V>>> store(bucketCount);
+        for (auto &list : _store)
+        {
+            for (auto &pair : list)
+            {
+                int index = hash(pair.first);
+                store[index].push_front(pair);
+            }
+        }
+        _store = store;
+        _bucketCount = bucketCount;
     }
 };
 
