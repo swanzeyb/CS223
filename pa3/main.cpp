@@ -47,6 +47,6 @@ int main(int argc, char *argv[])
     ChainingHash<int, int> cHash(101);
     ProbingHash<int, int> pHash(101);
     testHash(&cHash, myfile);
-    // testHash(&pHash, myfile);
+    testHash(&pHash, myfile);
     myfile.close();
 }
