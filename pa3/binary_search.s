@@ -1,38 +1,38 @@
 .text
 # Calculate Fibonacci number
 fibonacci:
-    addiu $sp, $sp, -12 # Allocate stack space for this frame
-    sw $ra, 0($sp) # Push return address
-    sw $a0, 4($sp) # Push n
+  addiu $sp, $sp, -12 # Allocate stack space for this frame
+  sw $ra, 0($sp) # Push return address
+  sw $a0, 4($sp) # Push n
 
-    # If n <= 1, return n
-    blez $a0, return_n # If n <= 0, return n
-    li $t0, 1 # Load 1 into $t0
-    ble $a0, $t0, return_n # If n == 1, return n
+  # If n <= 1, return n
+  blez $a0, return_n # If n <= 0, return n
+  li $t0, 1 # Load 1 into $t0
+  ble $a0, $t0, return_n # If n == 1, return n
 
-    # Return fibonacci(n-1) + fibonacci(n-2)
-    addi $a0, $a0, -1 # Calculate fibonacci(n-1)
-    jal fibonacci
-    sw $v0, 8($sp) # Push n-1 result
+  # Return fibonacci(n-1) + fibonacci(n-2)
+  addi $a0, $a0, -1 # Calculate fibonacci(n-1)
+  jal fibonacci
+  sw $v0, 8($sp) # Push n-1 result
 
-    lw $a0, 4($sp) # Load n
+  lw $a0, 4($sp) # Load n
 
-    addi $a0, $a0, -2 # Calculate fibonacci(n-2)
-    jal fibonacci
+  addi $a0, $a0, -2 # Calculate fibonacci(n-2)
+  jal fibonacci
 
-    lw $t0, 8($sp) # Load n-1 result
-    add $v0, $v0, $t0 # Add fibonacci(n-1) and fibonacci(n-2)
+  lw $t0, 8($sp) # Load n-1 result
+  add $v0, $v0, $t0 # Add fibonacci(n-1) and fibonacci(n-2)
 
-    # Restore registers and return
-    end_function:
-      lw $ra, 0($sp) # Restore return address
-      addiu $sp, $sp, 12 # Deallocate stack space
-      jr $ra # Return to caller
+  # Restore registers and return
+  end_function:
+    lw $ra, 0($sp) # Restore return address
+    addiu $sp, $sp, 12 # Deallocate stack space
+    jr $ra # Return to caller
 
-    # For base case, return n
-    return_n:
-      move $v0, $a0
-      j end_function
+  # For base case, return n
+  return_n:
+    move $v0, $a0
+    j end_function
 
 # Ask the user for an int
 prompt_int:
