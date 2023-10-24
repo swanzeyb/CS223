@@ -1,79 +1,102 @@
-.text
-# Calculate Fibonacci number
-fibonacci:
-  addiu $sp, $sp, -12 # Allocate stack space for this frame
-  sw $ra, 0($sp) # Push return address
-  sw $a0, 4($sp) # Push n
-
-  # If n <= 1, return n
-  blez $a0, return_n # If n <= 0, return n
-  li $t0, 1 # Load 1 into $t0
-  ble $a0, $t0, return_n # If n == 1, return n
-
-  # Return fibonacci(n-1) + fibonacci(n-2)
-  addi $a0, $a0, -1 # Calculate fibonacci(n-1)
-  jal fibonacci
-  sw $v0, 8($sp) # Push n-1 result
-
-  lw $a0, 4($sp) # Load n
-
-  addi $a0, $a0, -2 # Calculate fibonacci(n-2)
-  jal fibonacci
-
-  lw $t0, 8($sp) # Load n-1 result
-  add $v0, $v0, $t0 # Add fibonacci(n-1) and fibonacci(n-2)
-
-  # Restore registers and return
-  end_function:
-    lw $ra, 0($sp) # Restore return address
-    addiu $sp, $sp, 12 # Deallocate stack space
-    jr $ra # Return to caller
-
-  # For base case, return n
-  return_n:
-    move $v0, $a0
-    j end_function
-
-# Ask the user for an int
-prompt_int:
-  # Ask the user for an int
-  li $v0, 5 # Setup syscall to read int
-  syscall # Syscall stores result in $v0
-  jr $ra # Return to caller
-
-# Print int
-print_int:
-  li $v0, 1 # Syscall code
-  syscall
-  jr $ra # Return to caller
-
-# Print string
-print_str:
-  li $v0, 4 # Setup syscall to print string
-  syscall
-  jr $ra
-
 .data
-endl: .asciiz "\n"
-p_fibonacci: .asciiz "Enter number for Fibonacci function: "
-r_fibonacci: .asciiz "Result: "
+get_num: .asciiz "Enter number: "
+search_prompt: .asciiz "Enter number to search for: "
+found_message: .asciiz "Number found at index: "
+not_found_message: .asciiz "Number not in the array.\n"
 
 .text
 main:
-  la $a0, p_fibonacci  # Load the address of p_fibonacci into $a0
-  jal print_str # Print p_fibonacci
+  addiu $sp, $sp, -40   # Allocate stack space for this frame
+  li $s0, 10            # Get 10 numbers from user
 
-  jal prompt_int # Read n for fibonacci call
-  move $a0, $v0 # Load input into $a0
+input:
+  addiu $s0, $s0, -1    # Decrement loop counter
 
-  jal fibonacci # Call fibonacci with n
-  move $s0, $v0 # Store result
+  la $a0, get_num
+  li $v0, 4             # Setup syscall to print string
+  syscall
 
-  la $a0, r_fibonacci # Load the address of r_fibonacci into $a0
-  jal print_str # Print r_fibonacci
-  
-  move $a0, $s0 # Move result into $a0
-  jal print_int # Print fibonacci result
+  li $v0, 5             # Setup syscall to read int
+  syscall               # Syscall stores result in $v0
 
-  jr $ra # Main finished
+  li $t0, 4
+  multu $s0, $t0       # Get the offset
+  mflo $t1              # Store result in $t1
+
+  add $t2, $sp, $t1     # Calculate the address
+  sw $v0, 0($t2)        # Store the input on the stack
+
+  bnez $s0, input       # Get next input if not zero
+
+print_nums:
+  # Print the numbers in order
+  li $s0, 10
+
+  addiu $s0, $s0, -1
+  li $t0, 4
+  multu $s0, $t0       # Get the offset
+  mflo $t1              # Store result in $t1
+
+  add $t2, $sp, $t1     # Calculate the address
+  lw $a0, 0($t2)        # Load the number to print
+  li $v0, 1             # Setup syscall to print int
+  syscall
+
+  bnez $s0, print_nums  # Print next number if not zero
+
+  # Prompt user for search number
+  la $a0, search_prompt
+  li $v0, 4             # Setup syscall to print string
+  syscall
+
+  li $v0, 5             # Setup syscall to read int
+  syscall               # Syscall stores the search number in $v0
+
+  move $t3, $v0         # Store the search number in $t3
+
+  # Binary search setup
+  li $s0, 0             # low end of search
+  li $s1, 9             # high end of search, length - 1
+
+loop:
+  addu $t0, $s0, $s1    # Add low + high
+  sra $t0, $t0, 1       # Divide by 2
+
+  li $t4, 4
+  multu $t0, $t4       # Get the offset for middle element
+  mflo $t4
+
+  add $t5, $sp, $t4     # Address of the middle element
+  lw $t6, 0($t5)        # Load the middle element
+
+  beq $t6, $t3, has_result   # If found, jump to has_result
+  bgt $t6, $t3, greater      # If mid > search, jump to greater
+  blt $t6, $t3, less         # If mid < search, jump to less
+
+greater:
+  subu $s1, $t0, 1      # Move high to mid - 1
+  j loop_check
+
+less:
+  addu $s0, $t0, 1      # Move low to mid + 1
+
+loop_check:
+  ble $s0, $s1, loop    # Continue loop if low <= high
+  j no_result
+
+has_result:
+  # Print found message
+  la $a0, found_message
+  li $v0, 4
+  syscall
+
+  move $a0, $t0
+  li $v0, 1             # Setup syscall to print int
+  syscall
+
+no_result:
+  # Print not found message
+  la $a0, not_found_message
+  li $v0, 4
+  syscall
 
