@@ -1,4 +1,5 @@
 .data
+new_line: .asciiz "\n"
 get_num: .asciiz "Enter number: "
 search_prompt: .asciiz "Enter number to search for: "
 found_message: .asciiz "Number found at index: "
@@ -28,11 +29,12 @@ input:
 
   bnez $s0, input # Get next input if not zero
 
-print_nums:
   # Print the numbers in order
   li $s0, 10
 
-  addiu $s0, $s0, -1
+print_nums:
+  addiu $s0, $s0, -1 # Decrement remaining numbers
+
   li $t0, 4
   multu $s0, $t0 # Get the offset
   mflo $t1 # Store result in $t1
@@ -40,6 +42,10 @@ print_nums:
   add $t2, $sp, $t1 # Calculate the address
   lw $a0, 0($t2) # Load the number to print
   li $v0, 1 # Setup syscall to print int
+  syscall
+
+  la $a0, new_line
+  li $v0, 4 # Setup syscall to print string
   syscall
 
   bnez $s0, print_nums # Print next number if not zero
