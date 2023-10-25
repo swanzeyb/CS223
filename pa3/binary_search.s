@@ -72,7 +72,7 @@ loop:
   multu $t0, $t4 # Get the offset for middle element
   mflo $t4
 
-  add $t5, $sp, $t4 # Address of the middle element
+  addu $t5, $sp, $t4 # Address of the middle element
   lw $t6, 0($t5) # Load the middle element
 
   beq $t6, $t3, has_result # If found, jump to has_result
@@ -85,6 +85,7 @@ greater:
 
 less:
   addu $s0, $t0, 1 # Move low to mid + 1
+  j loop_check
 
 loop_check:
   ble $s0, $s1, loop # Continue loop if low <= high
@@ -96,7 +97,7 @@ has_result:
   li $v0, 4
   syscall
 
-  move $a0, $t0
+  move $a0, $t6 # Move the index to $a0
   li $v0, 1 # Setup syscall to print int
   syscall
 
