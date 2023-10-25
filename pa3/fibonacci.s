@@ -1,3 +1,8 @@
+.data
+endl: .asciiz "\n"
+p_fibonacci: .asciiz "Enter number for Fibonacci function: "
+r_fibonacci: .asciiz "Result: "
+
 .text
 # Calculate Fibonacci number
 fibonacci:
@@ -53,12 +58,6 @@ print_str:
   syscall
   jr $ra
 
-.data
-endl: .asciiz "\n"
-p_fibonacci: .asciiz "Enter number for Fibonacci function: "
-r_fibonacci: .asciiz "Result: "
-
-.text
 main:
   la $a0, p_fibonacci  # Load the address of p_fibonacci into $a0
   jal print_str # Print p_fibonacci
