@@ -47,7 +47,15 @@
     "typeinfo": "cpp",
     "cstring": "cpp",
     "fstream": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "chrono": "cpp",
+    "ctime": "cpp",
+    "list": "cpp",
+    "map": "cpp",
+    "ratio": "cpp",
+    "semaphore": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp"
   },
   "C_Cpp.intelliSenseEngineFallback": "enabled"
 }
